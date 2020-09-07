@@ -39,7 +39,7 @@ node() {
   }
 
   stage("Import OpenAPI") {
-    def tooboxArgs = [ "3scale", "import", "openapi", "-d", targetInstance, "/artifacts/swagger.json", "--override-private-base-url=${privateBaseURL}", "-t", targetSystemName ]
+    def tooboxArgs = [ "3scale", "import", "openapi", "-d", targetInstance, "/artifacts/swagger.json", "--override-private-base-url=${privateBaseURL}", "-t", targetSystemName, "--insecure"]
     if (publicStagingBaseURL != null) {
         tooboxArgs += "--staging-public-base-url=${publicStagingBaseURL}"
     }
@@ -50,15 +50,15 @@ node() {
   }
   
   stage("Create an Application Plan") {
-    runToolbox([ "3scale", "application-plan", "apply", targetInstance, targetSystemName, "test", "-n", "Test Plan", "--default" ])
+    runToolbox([ "3scale", "application-plan", "apply", targetInstance, targetSystemName, "test", "-n", "Test Plan", "--default", "--insecure" ])
   }
 
   stage("Create an Application") {
-    runToolbox([ "3scale", "application", "apply", targetInstance, testUserKey, "--account=${developerAccountId}", "--name=Test Application", "--description=Created by Jenkins", "--plan=test", "--service=${targetSystemName}" ])
+    runToolbox([ "3scale", "application", "apply", targetInstance, testUserKey, "--account=${developerAccountId}", "--name=Test Application", "--description=Created by Jenkins", "--plan=test", "--service=${targetSystemName}", "--insecure"])
   }
 
   stage("Promote to production") {
-    runToolbox([ "3scale", "proxy", "promote", targetInstance, targetSystemName ])
+    runToolbox([ "3scale", "proxy", "promote", targetInstance, targetSystemName, "--insecure"])
   }
 }
 
