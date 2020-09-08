@@ -59,7 +59,7 @@ node() {
   
    stage("Run integration tests") {
     if (publicStagingBaseURL == null) {
-      def proxyDefinition = runToolbox([ "3scale", "proxy", "show", targetInstance, targetSystemName, "sandbox" ])
+      def proxyDefinition = runToolbox([ "3scale", "proxy", "show", targetInstance, targetSystemName, "sandbox", "--insecure"])
       def proxy = readJSON text: proxyDefinition
       publicStagingBaseURL = proxy.content.proxy.sandbox_endpoint
     }
