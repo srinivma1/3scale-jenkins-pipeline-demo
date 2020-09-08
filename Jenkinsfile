@@ -32,7 +32,7 @@ node() {
   stage("Fetch OpenAPI") {
     // Fetch the OpenAPI Specification file and provision it as a ConfigMap
     sh """
-    curl -sfk -o swagger.json https://raw.githubusercontent.com/abouchama/CamelK-customerAPI/master/customer-api.json
+    curl -sfk -o swagger.json https://github.com/srinivma1/CamelK-customerAPI/blob/master/customer-api.json
     oc delete configmap openapi --ignore-not-found
     oc create configmap openapi --from-file="swagger.json"
     """
