@@ -50,11 +50,11 @@ node() {
   }
   
   stage("Create an Application Plan") {
-    runToolbox([ "3scale", "application-plan", "apply", targetInstance, targetSystemName, "test", "-n", "Test Plan", "--default", "--insecure" ])
+    runToolbox([ "3scale", "application-plan", "apply", targetInstance, targetSystemName, "customerplan", "-n", "Customer Plan", "--default", "--insecure" ])
   }
 
   stage("Create an Application") {
-    runToolbox([ "3scale", "application", "apply", targetInstance, testUserKey, "--account=${developerAccountId}", "--name=Test Application", "--description=Created by Jenkins", "--plan=test", "--service=${targetSystemName}", "--insecure"])
+    runToolbox([ "3scale", "application", "apply", targetInstance, testUserKey, "--account=${developerAccountId}", "--name=Customer Application", "--description=Created by Jenkins", "--plan=customerplan", "--service=${targetSystemName}", "--insecure"])
   }
   
    stage("Run integration tests") {
