@@ -57,19 +57,19 @@ node() {
     runToolbox([ "3scale", "application", "apply", targetInstance, testUserKey, "--account=${developerAccountId}", "--name=Customer Application", "--description=Created by Jenkins", "--plan=customerplan", "--service=${targetSystemName}", "--insecure"])
   }
   
-  // stage("Run integration tests") {
-   // if (publicStagingBaseURL == null) {
-  //    def proxyDefinition = runToolbox([ "3scale", "proxy", "show", targetInstance, targetSystemName, "sandbox", "--insecure"])
-   //   def proxy = readJSON text: proxyDefinition
-  //    publicStagingBaseURL = proxy.content.proxy.sandbox_endpoint
-  //  }
+   stage("Run integration tests") {
+     if (publicStagingBaseURL == null) {
+          def proxyDefinition = runToolbox([ "3scale", "proxy", "show", targetInstance, targetSystemName, "sandbox", "--insecure"])
+          def proxy = readJSON text: proxyDefinition
+          publicStagingBaseURL = proxy.content.proxy.sandbox_endpoint
+    }
 
-  //  sh """
-  //  echo "Public Staging Base URL is ${publicStagingBaseURL}"
-  //  echo "userkey is ${testUserKey}"
-  ////  curl -vfk ${publicStagingBaseURL}/camel/customer -H 'api-key: ${testUserKey}'
- //   """
- // }
+    sh """
+   echo "Public Staging Base URL is ${publicStagingBaseURL}"
+    echo "userkey is ${testUserKey}"
+   curl -vfk ${publicStagingBaseURL}/camel/customer -H 'api-key: ${testUserKey}'
+    """
+   }
 
   stage("Promote to production") {
     runToolbox([ "3scale", "proxy", "promote", targetInstance, targetSystemName, "--insecure"])
