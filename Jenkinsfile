@@ -67,7 +67,7 @@ node() {
     sh """
    echo "Public Staging Base URL is ${publicStagingBaseURL}"
     echo "userkey is ${testUserKey}"
-   curl -vfk ${publicStagingBaseURL}/camel/customer?user_key=${testUserKey}
+   curl -vk ${publicStagingBaseURL}/camel/customer?user_key=${testUserKey}
     """
    }
 
