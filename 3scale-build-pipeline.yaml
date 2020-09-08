@@ -1,0 +1,12 @@
+kind: "BuildConfig"
+apiVersion: "v1"
+metadata:
+  name: "3scale-build-pipeline"
+spec:
+  source:
+      git:
+        uri: https://github.com/srinivma1/3scale-pipeline-demo.git
+  strategy:
+    jenkinsPipelineStrategy:
+        jenkinsPipelineStrategy:
+        jenkinsfilePath: Jenkinsfile
