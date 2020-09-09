@@ -1,0 +1,336 @@
+OpenShift Build default/3scale-build-pipeline-8 from https://github.com/srinivma1/3scale-jenkins-pipeline-demo.git
+Checking out git https://github.com/srinivma1/3scale-jenkins-pipeline-demo.git into /var/lib/jenkins/jobs/default/jobs/default-3scale-build-pipeline/workspace@script to read Jenkinsfile
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/srinivma1/3scale-jenkins-pipeline-demo.git # timeout=10
+Fetching upstream changes from https://github.com/srinivma1/3scale-jenkins-pipeline-demo.git
+ > git --version # timeout=10
+ > git fetch --tags --progress https://github.com/srinivma1/3scale-jenkins-pipeline-demo.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse origin/master^{commit} # timeout=10
+Checking out Revision bdea0499b5787c30441b42d2381eec5f251ce491 (origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f bdea0499b5787c30441b42d2381eec5f251ce491
+Commit message: "Update Jenkinsfile"
+ > git rev-list --no-walk 4e95fc6aa7ad46d1d72abf00073dc92dc3741c65 # timeout=10
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/jobs/default/jobs/default-3scale-build-pipeline/workspace
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Fetch OpenAPI)
+[Pipeline] sh
++ curl -sfk -o swagger.json https://raw.githubusercontent.com/srinivma1/CamelK-customerAPI/master/customer-api.json
++ oc delete configmap openapi --ignore-not-found
+configmap "openapi" deleted
++ oc create configmap openapi --from-file=swagger.json
+configmap/openapi created
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Import OpenAPI)
+[Pipeline] sh
++ rm -f -- job.yaml
+[Pipeline] writeYaml
+[Pipeline] sh
++ oc delete job toolbox --ignore-not-found
+job.batch "toolbox" deleted
++ sleep 2
++ oc create -f job.yaml
+job.batch/toolbox created
++ sleep 20
+[Pipeline] sh
++ oc logs -f job/toolbox
+[Pipeline] echo
+{
+  "code": "E_3SCALE",
+  "message": "User key must be provided by --default-credentials-userkey optional param",
+  "class": "ThreeScaleToolbox::Error"
+}
+Updated service id: 3, name: CustomerAPI
+Service proxy updated
+destroying all mapping rules
+Created GET /camel/customer$ endpoint
+Created POST /camel/customer$ endpoint
+Activedocs exists, update!
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Create an Application Plan)
+[Pipeline] sh
++ rm -f -- job.yaml
+[Pipeline] writeYaml
+[Pipeline] sh
++ oc delete job toolbox --ignore-not-found
+job.batch "toolbox" deleted
++ sleep 2
++ oc create -f job.yaml
+job.batch/toolbox created
++ sleep 20
+[Pipeline] sh
++ oc logs -f job/toolbox
+[Pipeline] echo
+Applied application plan id: 10; Default: true
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Create an Application)
+[Pipeline] sh
++ rm -f -- job.yaml
+[Pipeline] writeYaml
+[Pipeline] sh
++ oc delete job toolbox --ignore-not-found
+job.batch "toolbox" deleted
++ sleep 2
++ oc create -f job.yaml
+job.batch/toolbox created
++ sleep 20
+[Pipeline] sh
++ oc logs -f job/toolbox
+[Pipeline] echo
+Applied application id: 7
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run integration tests)
+[Pipeline] sh
++ rm -f -- job.yaml
+[Pipeline] writeYaml
+[Pipeline] sh
++ oc delete job toolbox --ignore-not-found
+job.batch "toolbox" deleted
++ sleep 2
++ oc create -f job.yaml
+job.batch/toolbox created
++ sleep 20
+[Pipeline] sh
++ oc logs -f job/toolbox
+[Pipeline] echo
+{
+  "id": 11,
+  "version": 9,
+  "environment": "sandbox",
+  "content": {
+    "id": 3,
+    "account_id": 2,
+    "name": "CustomerAPI",
+    "description": "Customer API",
+    "txt_support": null,
+    "created_at": "2020-09-08T08:39:03Z",
+    "updated_at": "2020-09-08T11:06:20Z",
+    "logo_file_name": null,
+    "logo_content_type": null,
+    "logo_file_size": null,
+    "state": "incomplete",
+    "intentions_required": false,
+    "terms": null,
+    "buyers_manage_apps": true,
+    "buyers_manage_keys": true,
+    "custom_keys_enabled": true,
+    "buyer_plan_change_permission": "request",
+    "buyer_can_select_plan": false,
+    "notification_settings": null,
+    "default_application_plan_id": 10,
+    "default_service_plan_id": null,
+    "tenant_id": 2,
+    "system_name": "customer-api",
+    "backend_version": "1",
+    "mandatory_app_key": true,
+    "buyer_key_regenerate_enabled": true,
+    "support_email": "admin@3scale.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com",
+    "referrer_filters_required": false,
+    "deployment_option": "hosted",
+    "kubernetes_service_link": null,
+    "proxiable?": true,
+    "backend_authentication_type": "service_token",
+    "backend_authentication_value": "549b3703e28587c5162e35ef8ee5abe60f949a6c5c02c77aabfb4ed49879b5a5",
+    "proxy": {
+      "service_id": 3,
+      "id": 3,
+      "api_test_path": "/",
+      "secret_token": "Shared_secret_sent_from_proxy_to_API_backend_3e1e1ec51118bb2d",
+      "sandbox_endpoint": "https://customer-api-3scale-apicast-staging.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com:443",
+      "endpoint": "https://customer-api-3scale-apicast-production.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com:443",
+      "error_status_no_match": 404,
+      "error_status_auth_missing": 403,
+      "error_status_auth_failed": 403,
+      "error_status_limits_exceeded": 429,
+      "hostname_rewrite": null,
+      "oauth_login_url": null,
+      "credentials_location": "query",
+      "auth_app_id": "app_id",
+      "auth_app_key": "app_key",
+      "auth_user_key": "user_key",
+      "error_headers_auth_failed": "text/plain; charset=us-ascii",
+      "error_headers_auth_missing": "text/plain; charset=us-ascii",
+      "error_headers_no_match": "text/plain; charset=us-ascii",
+      "error_auth_failed": "Authentication failed",
+      "error_auth_missing": "Authentication parameters missing",
+      "error_no_match": "No Mapping Rule matched",
+      "error_headers_limits_exceeded": "text/plain; charset=us-ascii",
+      "error_limits_exceeded": "Usage limit exceeded",
+      "oidc_issuer_endpoint": null,
+      "oidc_issuer_type": "keycloak",
+      "authentication_method": "1",
+      "staging_domain": "customer-api-3scale-apicast-staging.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com",
+      "production_domain": "customer-api-3scale-apicast-production.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com",
+      "apicast_configuration_driven": true,
+      "tenant_id": 2,
+      "deployed_at": null,
+      "created_at": "2020-09-08T08:39:03Z",
+      "updated_at": "2020-09-08T11:06:20Z",
+      "api_test_success": null,
+      "lock_version": 1,
+      "hostname_rewrite_for_sandbox": "customers.3scale-backend.svc.cluster.local",
+      "endpoint_port": 443,
+      "api_backend": "http://customers.3scale-backend.svc.cluster.local:80",
+      "valid?": true,
+      "service_backend_version": "1",
+      "hosts": [
+        "customer-api-3scale-apicast-production.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com",
+        "customer-api-3scale-apicast-staging.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com"
+      ],
+      "backend": {
+        "endpoint": "https://backend-3scale.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com",
+        "host": "backend-3scale.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com"
+      },
+      "policy_chain": [
+        {
+          "name": "apicast",
+          "version": "builtin",
+          "configuration": {
+          }
+        }
+      ],
+      "jwt_claim_with_client_id": null,
+      "jwt_claim_with_client_id_type": null,
+      "proxy_rules": [
+        {
+          "id": 14,
+          "proxy_id": 3,
+          "http_method": "GET",
+          "pattern": "/camel/customer$",
+          "metric_id": 10,
+          "metric_system_name": "getcustomer",
+          "delta": 1,
+          "tenant_id": 2,
+          "created_at": "2020-09-08T11:06:20Z",
+          "updated_at": "2020-09-08T11:06:20Z",
+          "redirect_url": null,
+          "position": 1,
+          "last": false,
+          "owner_id": 3,
+          "owner_type": "Proxy",
+          "parameters": [
+
+          ],
+          "querystring_parameters": {
+          }
+        },
+        {
+          "id": 15,
+          "proxy_id": 3,
+          "http_method": "POST",
+          "pattern": "/camel/customer$",
+          "metric_id": 11,
+          "metric_system_name": "createcustomer",
+          "delta": 1,
+          "tenant_id": 2,
+          "created_at": "2020-09-08T11:06:20Z",
+          "updated_at": "2020-09-08T11:06:20Z",
+          "redirect_url": null,
+          "position": 2,
+          "last": false,
+          "owner_id": 3,
+          "owner_type": "Proxy",
+          "parameters": [
+
+          ],
+          "querystring_parameters": {
+          }
+        }
+      ]
+    }
+  }
+}
+
+[Pipeline] readJSON
+[Pipeline] sh
++ echo 'Public Staging Base URL is https://customer-api-3scale-apicast-staging.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com:443'
+Public Staging Base URL is https://customer-api-3scale-apicast-staging.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com:443
++ echo 'userkey is azerty1234567890'
+userkey is azerty1234567890
++ curl -vk 'https://customer-api-3scale-apicast-staging.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com:443/camel/customer?user_key=azerty1234567890'
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* About to connect() to customer-api-3scale-apicast-staging.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com port 443 (#0)
+*   Trying 3.137.108.189...
+* Connected to customer-api-3scale-apicast-staging.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com (3.137.108.189) port 443 (#0)
+* Initializing NSS with certpath: sql:/etc/pki/nssdb
+* skipping SSL peer certificate verification
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* SSL connection using TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+* Server certificate:
+* 	subject: CN=api.cluster-83f4.83f4.sandbox942.opentlc.com
+* 	start date: Sep 06 04:27:29 2020 GMT
+* 	expire date: Dec 05 04:27:29 2020 GMT
+* 	common name: api.cluster-83f4.83f4.sandbox942.opentlc.com
+* 	issuer: CN=Let's Encrypt Authority X3,O=Let's Encrypt,C=US
+> GET /camel/customer?user_key=azerty1234567890 HTTP/1.1
+> User-Agent: curl/7.29.0
+> Host: customer-api-3scale-apicast-staging.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com
+> Accept: */*
+> 
+< HTTP/1.1 200 OK
+< Server: openresty
+< Date: Tue, 08 Sep 2020 11:29:31 GMT
+< Transfer-Encoding: chunked
+< Accept: */*
+< Forwarded: for=3.131.61.220;host=customer-api-3scale-apicast-staging.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com;proto=https;proto-version=""
+< User-Agent: curl/7.29.0
+< user_key: azerty1234567890
+< X-3scale-proxy-secret-token: Shared_secret_sent_from_proxy_to_API_backend_3e1e1ec51118bb2d
+< X-Forwarded-For: 3.131.61.220
+< X-Forwarded-Host: customer-api-3scale-apicast-staging.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com
+< X-Forwarded-Port: 443
+< X-Forwarded-Proto: https
+< X-Real-IP: 10.131.2.14
+< Set-Cookie: c4097fb675b62092a254444fbec4eeca=5b07f51ea0be44ef3c407714a2ea0921; path=/; HttpOnly; Secure
+< Cache-control: private
+< 
+{ [data not shown]
+
+100    78    0    78    0     0    383      0 --:--:-- --:--:-- --:--:--   382
+* Connection #0 to host customer-api-3scale-apicast-staging.3scale.apps.cluster-83f4.83f4.sandbox942.opentlc.com left intact
+(V1) --> Enjoy the camelk Knative demo :-) | POD : customers-948955dd4-tls4h 
+[Pipeline] }
+[Pipeline] // stage
+
+[Pipeline] stage
+[Pipeline] { (Promote to production)
+[Pipeline] sh
++ rm -f -- job.yaml
+[Pipeline] writeYaml
+[Pipeline] sh
++ oc delete job toolbox --ignore-not-found
+job.batch "toolbox" deleted
++ sleep 2
++ oc create -f job.yaml
+job.batch/toolbox created
++ sleep 20
+[Pipeline] sh
++ oc logs -f job/toolbox
+[Pipeline] echo
+Proxy Configuration version 9 promoted to 'production'
+
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
