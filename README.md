@@ -28,4 +28,18 @@
   
   ```
   
+  2. Install Jenkins on Openshift
+  ```
+  oc new-app jenkins-ephemeral
+  ```
+  
+  # Pipeline Demo
+  
+  ```
+  oc apply -f 3scale-build-pipeline.yaml
+  
+  ```
+  Above command creates BuildConfig object in Openshift.
+  
+  Start the build
   
