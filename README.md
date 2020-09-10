@@ -38,7 +38,7 @@ In this demo, we would be automating the deployment of 3scale API from staging t
   ruby -v
   ```
   
-  b. Install 3scale-toolbix
+  b. Install 3scale-toolbox
   
   ```
   gem install 3scale_toolbox
@@ -55,6 +55,14 @@ In this demo, we would be automating the deployment of 3scale API from staging t
        https://github.com/srinivma1/CamelK-customerAPI.git
 
   # Pipeline Demo
+  
+  Initialize 3scale toolbox with actual tenant to be used as shown below:
+  ```
+   3scale -k remote add dha-tenant https://<TENANT_ACCESS_TOKEN>@<TENANT_ADMIN_URL>
+
+   ```
+  
+  Create Jenkins build pipeline using below commands:
   
   ```
   oc apply -f 3scale-build-pipeline.yaml
