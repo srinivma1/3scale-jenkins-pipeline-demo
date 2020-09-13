@@ -59,8 +59,13 @@ In this demo, we would be automating the deployment of 3scale API from staging t
   Initialize 3scale toolbox with actual tenant to be used as shown below:
   ```
    3scale -k remote add dha-tenant https://<TENANT_ACCESS_TOKEN>@<TENANT_ADMIN_URL>
-
    ```
+  
+  Create a secret to be used by 3scale-cli
+  ```
+  oc create secret generic 3scale-toolbox --from-file="$HOME/.3scalerc.yaml"
+  ```
+  If any new tenants have been added, delete the secret and execute the above command once again.
   
   Create Jenkins build pipeline using below commands:
   
