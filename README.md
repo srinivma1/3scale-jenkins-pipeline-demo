@@ -77,3 +77,6 @@ In this demo, we would be automating the deployment of 3scale API from staging t
   
   Start the build
   
+# 3Scale API documentation can be found from the following URL:
+
+<https://yourdomain-admin.3scale.net>/p/admin/api_docs
