@@ -17,7 +17,7 @@
  */
 
 def targetSystemName = "customer-api"
-def targetInstance = "3scale-instance"
+def targetInstance = "dha-tenant"
 def privateBaseURL = "http://customers.3scale-backend.svc.cluster.local:80"
 def testUserKey = "azerty1234567890"
 def developerAccountId = "john"
