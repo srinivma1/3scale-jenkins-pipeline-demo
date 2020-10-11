@@ -45,6 +45,14 @@ In this demo, we would be automating the deployment of 3scale API from staging t
   
   ```
   
+  c. Install 3scale-toolbox on ubuntu
+  
+  ```
+  wget https://github.com/3scale/3scale_toolbox_packaging/releases/download/v0.16.2/3scale-toolbox_0.16.0-1_amd64.deb
+  
+  dpkg -i 3scale-toolbox_0.16.0-1_amd64.deb
+  ```
+  
   2. Install Jenkins on Openshift
   ```
   oc new-app jenkins-ephemeral
@@ -53,6 +61,8 @@ In this demo, we would be automating the deployment of 3scale API from staging t
   3. Install backend API application. Refer to following git URL for installing the backend API application :
   
        https://github.com/srinivma1/CamelK-customerAPI.git
+       
+       
 
   # Pipeline Demo
   
