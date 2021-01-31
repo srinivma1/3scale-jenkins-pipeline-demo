@@ -51,7 +51,15 @@ In this demo, we would be automating the deployment of 3scale API from staging t
   wget https://github.com/3scale/3scale_toolbox_packaging/releases/download/v0.16.2/3scale-toolbox_0.16.0-1_amd64.deb
   
   dpkg -i 3scale-toolbox_0.16.0-1_amd64.deb
-  ```
+  
+   ```
+   d. Install 3scale toolbox on RHEL7
+   
+  ```   
+  wget https://github.com/3scale-labs/3scale_toolbox_packaging/releases/download/v0.17.1/3scale-toolbox-0.17.1-1.el7.x86_64.rpm
+  
+  rpm -i 3scale-toolbox-0.17.1-1.el7.x86_64.rpm
+  ``` 
   
   2. Install Jenkins on Openshift
   ```
